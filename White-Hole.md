@@ -1,1 +1,1 @@
-It is would only thing we can see and it will destorys everyhting.
+It is the only thing we can see and it will destroy everything.
