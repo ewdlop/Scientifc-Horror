@@ -1,0 +1,53 @@
+# Define annual risks (chances per year)
+meteorite_annual = 1 / (1.6e6 * 78.79)  # Lifetime risk divided by average lifespan
+lightning_annual = 1 / (15300 * 78.79)   # Lifetime risk divided by average lifespan
+
+# Calculate lifetime risks
+avg_lifespan = 78.79  # US average life expectancy
+
+# Other common risks for comparison (annual)
+car_accident_annual = 1 / 8303
+plane_crash_annual = 1 / 205552
+shark_attack_annual = 1 / 3748067
+
+# Calculate odds over different time periods
+def calculate_odds(annual_risk, years):
+    return 1 - (1 - annual_risk) ** years
+
+# Compare 1-year risks
+risks_1year = {
+    "Meteorite Strike": calculate_odds(meteorite_annual, 1),
+    "Lightning Strike": calculate_odds(lightning_annual, 1),
+    "Car Accident": calculate_odds(car_accident_annual, 1),
+    "Plane Crash": calculate_odds(plane_crash_annual, 1),
+    "Shark Attack": calculate_odds(shark_attack_annual, 1)
+}
+
+# Compare lifetime risks
+risks_lifetime = {
+    "Meteorite Strike": calculate_odds(meteorite_annual, avg_lifespan),
+    "Lightning Strike": calculate_odds(lightning_annual, avg_lifespan),
+    "Car Accident": calculate_odds(car_accident_annual, avg_lifespan),
+    "Plane Crash": calculate_odds(plane_crash_annual, avg_lifespan),
+    "Shark Attack": calculate_odds(shark_attack_annual, avg_lifespan)
+}
+
+# Print results
+print("Annual Risk (1 in X):")
+for risk, probability in risks_1year.items():
+    print(f"{risk}: 1 in {int(1/probability):,}")
+
+print("\nLifetime Risk (1 in X):")
+for risk, probability in risks_lifetime.items():
+    print(f"{risk}: 1 in {int(1/probability):,}")
+
+# Calculate how many years you'd need to live to have a 1% chance of each event
+target_probability = 0.01
+print("\nYears needed for 1% chance:")
+for risk, annual_prob in {
+    "Meteorite Strike": meteorite_annual,
+    "Lightning Strike": lightning_annual,
+    "Car Accident": car_accident_annual
+}.items():
+    years = int(log(1 - target_probability) / log(1 - annual_prob))
+    print(f"{risk}: {years:,} years")
